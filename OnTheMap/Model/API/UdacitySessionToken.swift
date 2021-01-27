@@ -19,7 +19,7 @@ struct UdacitySessionToken: Codable {
 
     struct Session: Codable {
         let id: String
-        let expiration: String
+        let expiration: Date
     }
 
 }
