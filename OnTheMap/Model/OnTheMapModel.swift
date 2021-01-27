@@ -9,7 +9,13 @@ import Foundation
 import Combine
 
 class OnTheMapModel: ObservableObject, ApiClient {
-    @Published var sessionToken: String? = nil
+    @Published var sessionToken: UdacitySessionToken? = nil
+    var isAuthenticated: Bool {
+        guard let sessionToken = sessionToken else {
+            return false
+        }
+        return sessionToken.session.expiration
+    }
 
     private var cancellables: Set<AnyCancellable> = []
 

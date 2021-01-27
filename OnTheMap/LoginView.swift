@@ -25,7 +25,6 @@ struct LoginView<T: ApiClient>: View {
                 .autocapitalization(.none)
             SecureField("Password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-//                .disableAutocorrection(true)
             Button("Login") {
                 client.login(username: email, password: password)
             }
