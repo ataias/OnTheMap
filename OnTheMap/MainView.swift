@@ -13,9 +13,10 @@ struct MainView: View {
         NavigationView {
             LoginView()
                 .sheet(isPresented: $isPresented, content: {
-                    AboutView()
+                    NavigationView {
+                        AboutView()
+                    }
                 })
-                // FIXME could I make the space above be smaller in the navigation bar? Maybe change the style
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
