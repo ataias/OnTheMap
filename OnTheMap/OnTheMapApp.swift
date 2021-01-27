@@ -13,10 +13,8 @@ struct OnTheMapApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView()
-                .onAppear(perform: {
-                    model.postSession()
-                })
+            MainView<OnTheMapModel>()
+                .environmentObject(model)
         }
     }
 }

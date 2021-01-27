@@ -22,15 +22,7 @@ enum OnTheMapApi: URLRequestRepresentable {
             request.httpMethod = "POST"
             request.addValue("application/json", forHTTPHeaderField: "Accept")
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody =
-            """
-            {
-                "udacity": {
-                    username: \(username),
-                    password: \(password)
-                }
-            }
-            """.data(using: .utf8)
+            request.httpBody = try! JSONEncoder().encode(UdacitySessionCredentials(username: username, password: password))
             return request
         }
     }

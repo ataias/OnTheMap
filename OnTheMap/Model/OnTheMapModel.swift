@@ -8,15 +8,17 @@
 import Foundation
 import Combine
 
-class OnTheMapModel: ObservableObject {
+class OnTheMapModel: ObservableObject, ApiClient {
     @Published var sessionToken: String? = nil
-    @Published var username: String = ""
-    @Published var password: String = ""
 
     private var cancellables: Set<AnyCancellable> = []
 
-    func postSession() {
-        OnTheMapApi.postSession(username: username, password: username)
+    func login(username: String, password: String) {
+        guard username != "" && password != "" else {
+            print("Session can't be created with empty credentials")
+            return
+        }
+        OnTheMapApi.postSession(username: username, password: password)
             .receive(on: DispatchQueue.main)
             .retry(3)
             .sink(

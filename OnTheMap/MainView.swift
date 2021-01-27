@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct MainView: View {
+struct MainView<T: ApiClient>: View {
     @State private var isPresented = false
     var body: some View {
         NavigationView {
-            LoginView()
+            LoginView<T>()
                 .sheet(isPresented: $isPresented, content: {
                     NavigationView {
                         AboutView()
@@ -33,7 +33,8 @@ struct MainView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            MainView()
+            MainView<MockApiClient>()
+                .environmentObject(MockApiClient())
         }
     }
 }

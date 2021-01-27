@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct LoginView: View {
+struct LoginView<T: ApiClient>: View {
     @State private var email = ""
     @State private var password = ""
+    @EnvironmentObject var client: T
 
     var body: some View {
         VStack {
@@ -20,10 +21,13 @@ struct LoginView: View {
                 .padding(.bottom)
             TextField("Email", text: $email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .disableAutocorrection(true)
+                .autocapitalization(.none)
             SecureField("Password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+//                .disableAutocorrection(true)
             Button("Login") {
-                print("FIXME")
+                client.login(username: email, password: password)
             }
             Spacer()
             HStack {
@@ -39,6 +43,7 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView<MockApiClient>()
+            .environmentObject(MockApiClient())
     }
 }
