@@ -21,8 +21,8 @@ extension OnTheMapApi {
                 return data.subdata(in: range)
             }
             .tryMap({ data throws -> UdacitySessionToken in
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                let decoder = UdacitySessionToken.decoder
+                
                 // FIXME add a test project and validate the decoder there! it is inefficient to just test this manually
                 guard let sessionToken = try? decoder.decode(UdacitySessionToken.self, from: data) else {
                     // FIXME the date decoding is failing, then it enters this guard
