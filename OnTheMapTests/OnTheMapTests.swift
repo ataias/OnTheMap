@@ -9,7 +9,7 @@ import XCTest
 @testable import OnTheMap
 
 class OnTheMapTests: XCTestCase {
-    func testExample() throws {
+    func testDecoder() throws {
         let sut = UdacitySessionToken.decoder
 
         let data = """

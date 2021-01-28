@@ -22,10 +22,8 @@ extension OnTheMapApi {
             }
             .tryMap({ data throws -> UdacitySessionToken in
                 let decoder = UdacitySessionToken.decoder
-                
-                // FIXME add a test project and validate the decoder there! it is inefficient to just test this manually
+
                 guard let sessionToken = try? decoder.decode(UdacitySessionToken.self, from: data) else {
-                    // FIXME the date decoding is failing, then it enters this guard
                     let error = try decoder.decode(UdacityError.self, from: data)
                     throw OnTheMapError.udacityApiError(error)
                 }

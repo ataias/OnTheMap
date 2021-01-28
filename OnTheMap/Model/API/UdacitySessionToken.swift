@@ -22,6 +22,7 @@ struct UdacitySessionToken: Codable {
         let expiration: Date
     }
 
+    /// Source: [Vini App at StackOverflow](https://stackoverflow.com/a/46538676/2304697)
     static let decoder: JSONDecoder = {
         enum DateError: String, Error {
             case invalidDate

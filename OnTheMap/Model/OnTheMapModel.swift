@@ -10,12 +10,12 @@ import Combine
 
 class OnTheMapModel: ObservableObject, ApiClient {
     @Published var sessionToken: UdacitySessionToken? = nil
-//    var isAuthenticated: Bool {
-//        guard let sessionToken = sessionToken else {
-//            return false
-//        }
-//        return sessionToken.session.expiration
-//    }
+    var authenticated: Bool {
+        guard let sessionToken = sessionToken else {
+            return false
+        }
+        return sessionToken.session.expiration > Date()
+    }
 
     private var cancellables: Set<AnyCancellable> = []
 

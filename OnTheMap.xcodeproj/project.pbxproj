@@ -11,6 +11,7 @@
 		424FBFA325C16993008DC2DC /* UdacitySessionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424FBFA225C16993008DC2DC /* UdacitySessionToken.swift */; };
 		424FBFA625C16AD1008DC2DC /* UdacityError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424FBFA525C16AD1008DC2DC /* UdacityError.swift */; };
 		426F530625C2D40500C47B75 /* OnTheMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F530525C2D40500C47B75 /* OnTheMapTests.swift */; };
+		426F531025C2DFDD00C47B75 /* MapTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426F530F25C2DFDD00C47B75 /* MapTabView.swift */; };
 		42A41AA125C0BF39001B37B5 /* OnTheMapApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A41AA025C0BF39001B37B5 /* OnTheMapApi.swift */; };
 		42A41AA525C0C1D7001B37B5 /* OnTheMapApi+PostSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A41AA425C0C1D7001B37B5 /* OnTheMapApi+PostSession.swift */; };
 		42A41AA825C0C8AA001B37B5 /* OnTheMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A41AA725C0C8AA001B37B5 /* OnTheMapModel.swift */; };
@@ -40,6 +41,7 @@
 		426F530325C2D40500C47B75 /* OnTheMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnTheMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		426F530525C2D40500C47B75 /* OnTheMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTheMapTests.swift; sourceTree = "<group>"; };
 		426F530725C2D40500C47B75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		426F530F25C2DFDD00C47B75 /* MapTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTabView.swift; sourceTree = "<group>"; };
 		42A41AA025C0BF39001B37B5 /* OnTheMapApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTheMapApi.swift; sourceTree = "<group>"; };
 		42A41AA425C0C1D7001B37B5 /* OnTheMapApi+PostSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnTheMapApi+PostSession.swift"; sourceTree = "<group>"; };
 		42A41AA725C0C8AA001B37B5 /* OnTheMapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTheMapModel.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				42CD03DB25BEC85900EAB1E4 /* Preview Content */,
 				42CD03E525BEC8F700EAB1E4 /* LoginView.swift */,
 				42CD03E825BED25700EAB1E4 /* AboutView.swift */,
+				426F530F25C2DFDD00C47B75 /* MapTabView.swift */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				42CD03D825BEC85600EAB1E4 /* MainView.swift in Sources */,
 				42CD03D625BEC85600EAB1E4 /* OnTheMapApp.swift in Sources */,
 				424FBFA325C16993008DC2DC /* UdacitySessionToken.swift in Sources */,
+				426F531025C2DFDD00C47B75 /* MapTabView.swift in Sources */,
 				424FBFA025C16541008DC2DC /* UdacitySessionCredentials.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

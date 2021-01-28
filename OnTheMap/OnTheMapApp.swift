@@ -13,7 +13,7 @@ struct OnTheMapApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView<OnTheMapModel>()
+            MainView<OnTheMapModel>(authenticated: model.authenticated)
                 .environmentObject(model)
         }
     }
