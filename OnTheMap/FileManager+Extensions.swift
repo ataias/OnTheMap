@@ -30,7 +30,7 @@ extension FileManager {
     /// - Parameter to: the url to save the file to
     /// - throws
     static func save<T: Encodable>(_ encodable: T, to url: URL) throws {
-        let encoder = JSONEncoder()
+        let encoder = UdacitySessionToken.encoder
         let data = try encoder.encode(encodable)
         try data.write(to: url, options: [.atomicWrite])
     }

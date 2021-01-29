@@ -27,3 +27,11 @@ struct StudentLocation: Codable, Identifiable {
 struct StudentLocationResult: Codable {
     let results: [StudentLocation]
 }
+
+extension StudentLocation {
+    static let sampleArray: [StudentLocation] = {
+        let url = Bundle.main.url(forResource: "studentLocationsDummy", withExtension: ".json")!
+        let studentLocationResult = try! FileManager.read(StudentLocationResult.self, url)
+        return studentLocationResult.results
+    }()
+}

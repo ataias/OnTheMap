@@ -53,4 +53,10 @@ struct UdacitySessionToken: Codable {
         return decoder
     }()
 
+    static let encoder: JSONEncoder = {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        return encoder
+    }()
+
 }

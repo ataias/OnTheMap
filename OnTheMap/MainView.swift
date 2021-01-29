@@ -10,10 +10,11 @@ import SwiftUI
 struct MainView<T: ApiClient>: View {
     @State private var isPresented = false
     let authenticated: Bool
+    let studentLocations: [StudentLocation]
     var body: some View {
         NavigationView {
             if authenticated {
-                MapTabView()
+                MapTabView(studentLocations: studentLocations)
             } else {
                 LoginView<T>()
                     .sheet(isPresented: $isPresented, content: {
@@ -38,8 +39,8 @@ struct MainView<T: ApiClient>: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            MainView<MockApiClient>(authenticated: false)
-            MainView<MockApiClient>(authenticated: true)
+            MainView<MockApiClient>(authenticated: false, studentLocations: StudentLocation.sampleArray)
+            MainView<MockApiClient>(authenticated: true, studentLocations: StudentLocation.sampleArray)
         }
             .environmentObject(MockApiClient())
     }

@@ -12,6 +12,13 @@ class OnTheMapModel: ObservableObject, ApiClient {
     @Published var sessionToken: UdacitySessionToken? = nil
     @Published var studentLocations: [StudentLocation] = []
 
+    static let sessionTokenURL = FileManager.documentsDirectory.appendingPathComponent("sessionToken.json")
+    public init() {
+        if FileManager.default.fileExists(atPath: Self.sessionTokenURL.path) {
+            self.sessionToken = try! FileManager.read(UdacitySessionToken.self, Self.sessionTokenURL)
+        }
+    }
+
     var authenticated: Bool {
         guard let sessionToken = sessionToken else {
             return false
@@ -40,6 +47,7 @@ class OnTheMapModel: ObservableObject, ApiClient {
                 },
                 receiveValue: {
                     self.sessionToken = $0
+                    try! FileManager.save(self.sessionToken, to: Self.sessionTokenURL)
                     print("Session token: \($0)")
                 }
             )

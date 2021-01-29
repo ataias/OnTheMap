@@ -21,13 +21,7 @@ struct ListStudentLocationsView: View {
 }
 
 struct ListStudentLocationsView_Previews: PreviewProvider {
-    static let studentLocations: [StudentLocation] = {
-        let url = Bundle.main.url(forResource: "studentLocationsDummy", withExtension: ".json")!
-        let studentLocationResult = try! FileManager.read(StudentLocationResult.self, url)
-        return studentLocationResult.results
-    }()
-
     static var previews: some View {
-        ListStudentLocationsView(studentLocations: studentLocations)
+        ListStudentLocationsView(studentLocations: StudentLocation.sampleArray)
     }
 }
