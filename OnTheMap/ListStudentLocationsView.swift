@@ -12,9 +12,15 @@ struct ListStudentLocationsView: View {
     
     var body: some View {
         List {
+            // FIXME some of the URLs are not proper; what to do? maybe an alert when the user clicks on an item that has an invalid url?
             ForEach(studentLocations) { studentLocation in
-                Text(studentLocation.firstName)
-                + Text(studentLocation.lastName)
+
+                Link(destination: URL(string: "www.google.com")!) {
+                    VStack(alignment: .leading) {
+                        Text("\(studentLocation.firstName) \(studentLocation.lastName)")
+                        Text(studentLocation.mediaURL)
+                    }
+                }
             }
         }
     }
