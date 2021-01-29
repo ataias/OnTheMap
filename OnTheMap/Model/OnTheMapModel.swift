@@ -10,6 +10,8 @@ import Combine
 
 class OnTheMapModel: ObservableObject, ApiClient {
     @Published var sessionToken: UdacitySessionToken? = nil
+    @Published var studentLocations: [StudentLocation] = []
+
     var authenticated: Bool {
         guard let sessionToken = sessionToken else {
             return false
@@ -42,5 +44,26 @@ class OnTheMapModel: ObservableObject, ApiClient {
                 }
             )
             .store(in: &cancellables)
+    }
+
+    func getStudentLocations(limit: Int, skip: Int, orderBy: OnTheMapApi.OrderBy) {
+        OnTheMapApi.getStudentLocations(limit: limit, skip: skip, orderBy: orderBy)
+            .receive(on: DispatchQueue.main)
+            .retry(3)
+            .sink(
+                receiveCompletion: { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Error when running \(#function): \(error)")
+                    case .finished:
+                        print("Finished \(#function) successfully")
+                    }
+                },
+                receiveValue: {
+                    self.studentLocations = $0.results
+                }
+            )
+            .store(in: &cancellables)
+
     }
 }

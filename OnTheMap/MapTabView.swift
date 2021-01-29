@@ -9,7 +9,7 @@ import SwiftUI
 //import MapKit
 
 struct MapTabView: View {
-    @State private var selection = 1
+    @State private var selection = 2
 
     var body: some View {
         TabView(selection: $selection) {

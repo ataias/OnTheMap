@@ -9,7 +9,7 @@ import XCTest
 @testable import OnTheMap
 
 class OnTheMapTests: XCTestCase {
-    func testDecoder() throws {
+    func testDecoderWithDate() throws {
         let sut = UdacitySessionToken.decoder
 
         let data = """
@@ -40,6 +40,12 @@ class OnTheMapTests: XCTestCase {
         // DateComponents as a date specifier
         let date = calendar.date(from: dateComponents)!
         XCTAssertEqual(date, decoded.session.expiration)
+    }
+
+    func testDecodeStudentLocation() throws {
+        let url = Bundle.main.url(forResource: "studentLocationsDummy", withExtension: ".json")!
+        let sut = try FileManager.read(StudentLocationResult.self, url)
+        XCTAssertNotEqual(0, sut.results.count)
     }
 
 }

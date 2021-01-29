@@ -1,16 +1,16 @@
 //
-//  OnTheMapApi+PostSession.swift
+//  OnTheMapApi+StudentLocation.swift
 //  OnTheMap
 //
-//  Created by Ataias Pereira Reis on 26/01/21.
+//  Created by Ataias Pereira Reis on 29/01/21.
 //
 
 import Foundation
 import Combine
 
 extension OnTheMapApi {
-    static func postSession(username: String, password: String) -> AnyPublisher<UdacitySessionToken, Error> {
-        let request = OnTheMapApi.postSession(username: username, password: password).urlRequest
+    static func getStudentLocations(limit: Int, skip: Int, orderBy: OnTheMapApi.OrderBy) -> AnyPublisher<StudentLocationResult, Error> {
+        let request = OnTheMapApi.getStudentLocations(limit: limit, skip: skip, orderBy: orderBy).urlRequest
         return URLSession.shared.dataTaskPublisher(for: request)
             .mapError({ (error) -> Error in
                 return OnTheMapError.urlError(error)
@@ -20,16 +20,15 @@ extension OnTheMapApi {
                 let range = 5..<data.count
                 return data.subdata(in: range)
             }
-            .tryMap({ data throws -> UdacitySessionToken in
+            .tryMap({ data throws -> StudentLocationResult in
                 let decoder = UdacitySessionToken.decoder
 
-                guard let sessionToken = try? decoder.decode(UdacitySessionToken.self, from: data) else {
+                guard let studentLocation = try? decoder.decode(StudentLocationResult.self, from: data) else {
                     let error = try decoder.decode(UdacityError.self, from: data)
                     throw OnTheMapError.udacityApiError(error)
                 }
-                return sessionToken
+                return studentLocation
             })
             .eraseToAnyPublisher()
     }
 }
-

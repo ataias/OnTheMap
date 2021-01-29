@@ -13,7 +13,7 @@ struct MainView<T: ApiClient>: View {
     var body: some View {
         NavigationView {
             if authenticated {
-                Text("Hello")
+                MapTabView()
             } else {
                 LoginView<T>()
                     .sheet(isPresented: $isPresented, content: {
