@@ -24,9 +24,16 @@ struct ListStudentLocationsView: View {
                 Button(action: {
                     openURL(path: studentLocation.mediaURL)
                 }, label: {
-                    VStack(alignment: .leading) {
-                        Text("\(studentLocation.firstName) \(studentLocation.lastName)")
-                        Text(studentLocation.mediaURL)
+
+                    HStack {
+                        Image(systemName: "pin")
+                            .foregroundColor(.blue)
+                        VStack(alignment: .leading) {
+                            Text("\(studentLocation.firstName) \(studentLocation.lastName)")
+                            Text(studentLocation.mediaURL)
+                                .font(.footnote)
+                                .foregroundColor(Color.gray)
+                        }
                     }
                 })
 
@@ -39,6 +46,7 @@ struct ListStudentLocationsView: View {
 
     // MARK: - methods
     func openURL(path: String) {
+        // TODO this handling of the URL and scheme guessing could be in a separate function which is unit tested
         guard var urlComponents = URLComponents(string: path) else {
             showAlertFor(badURL: path)
             return
