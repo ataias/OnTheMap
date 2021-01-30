@@ -22,18 +22,7 @@ struct ListStudentLocationsView: View {
             ForEach(studentLocations) { studentLocation in
 
                 Button(action: {
-                    var urlComponents = URLComponents(string: studentLocation.mediaURL)!
-                    if urlComponents.scheme == nil {
-                        urlComponents.scheme = "http"
-                    }
-                    let url = urlComponents.url!
-                    guard url.valid else {
-                        alertMessage = "Sorry, can't open \"\(studentLocation.mediaURL)\" because that link is invalid"
-                        isPresented = true
-                        return
-                    }
-
-                    openURL(url)
+                    openURL(path: studentLocation.mediaURL)
                 }, label: {
                     VStack(alignment: .leading) {
                         Text("\(studentLocation.firstName) \(studentLocation.lastName)")
@@ -49,7 +38,33 @@ struct ListStudentLocationsView: View {
     }
 
     // MARK: - methods
+    func openURL(path: String) {
+        guard var urlComponents = URLComponents(string: path) else {
+            showAlertFor(badURL: path)
+            return
+        }
 
+        if urlComponents.scheme == nil {
+            urlComponents = URLComponents()
+            urlComponents.scheme = "http"
+            urlComponents.host = path
+        }
+        let url = urlComponents.url!
+
+        print("URL: \(url.absoluteString)")
+
+        guard url.valid else {
+            showAlertFor(badURL: path)
+            return
+        }
+
+        openURL(url)
+    }
+
+    func showAlertFor(badURL: String) {
+        alertMessage = "Sorry, can't open \"\(badURL)\" because that link is invalid"
+        isPresented = true
+    }
 }
 
 struct ListStudentLocationsView_Previews: PreviewProvider {
