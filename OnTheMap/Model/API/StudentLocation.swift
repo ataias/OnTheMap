@@ -31,6 +31,13 @@ struct StudentLocation: Codable, Identifiable {
     var fullName: String {
         firstName + " " + lastName
     }
+
+    var formattedCreatedAt: String {
+        Self.dateFormatter.string(from: createdAt)
+    }
+    var formattedUpdatedAt: String {
+        Self.dateFormatter.string(from: updatedAt)
+    }
 }
 
 struct StudentLocationResult: Codable {
@@ -47,4 +54,14 @@ extension StudentLocation {
     static var sample: StudentLocation {
         sampleArray[0]
     }
+}
+
+extension StudentLocation {
+    static var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter
+    }
+
 }

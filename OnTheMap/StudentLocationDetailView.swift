@@ -19,19 +19,23 @@ extension HorizontalAlignment {
 
 struct StudentLocationDetailView: View {
     let studentLocation: StudentLocation
+
+    var columns: [GridItem] = [
+        .init(.fixed(150)),
+        .init(.flexible())
+    ]
+
     var body: some View {
 
-        HStack {
-            VStack(alignment: .trailing) {
-                Text("Name").bold()
-                Text("Latitude").bold()
-                Text("Longitude").bold()
-            }
-            VStack(alignment: .leading) {
-                Text(studentLocation.fullName)
-                Text("\(studentLocation.latitude)")
-                Text("\(studentLocation.longitude)")
-            }
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 2) {
+                HorizontalItemView(title: "Name", value: studentLocation.fullName)
+                HorizontalItemView(title: "Latitude", value: studentLocation.latitude)
+                HorizontalItemView(title: "Longitude", value: studentLocation.longitude)
+                HorizontalItemView(title: "Location", value: studentLocation.mapString)
+                HorizontalItemView(title: "Created At", value: studentLocation.formattedCreatedAt)
+                HorizontalItemView(title: "Updated At", value: studentLocation.formattedUpdatedAt)
+            }.font(.body)
         }
         .padding()
     }
