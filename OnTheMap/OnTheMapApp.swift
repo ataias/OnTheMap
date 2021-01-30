@@ -15,6 +15,9 @@ struct OnTheMapApp: App {
         WindowGroup {
             MainView<OnTheMapModel>(authenticated: model.authenticated, studentLocations: model.studentLocations)
                 .environmentObject(model)
+                .onAppear(perform: {
+                    model.getStudentLocations(limit: 100, skip: 0, orderBy: .ascending(.createdAt))
+                })
         }
     }
 }

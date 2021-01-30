@@ -8,22 +8,48 @@
 import SwiftUI
 
 struct ListStudentLocationsView: View {
+    // MARK: - Parameters
     let studentLocations: [StudentLocation]
-    
+
+    // MARK: - State, Environment and computed properties
+    @State private var isPresented = false
+    @State private var alertMessage = ""
+    @Environment(\.openURL) var openURL
+
+    // MARK: - body
     var body: some View {
         List {
-            // FIXME some of the URLs are not proper; what to do? maybe an alert when the user clicks on an item that has an invalid url?
             ForEach(studentLocations) { studentLocation in
 
-                Link(destination: URL(string: "www.google.com")!) {
+                Button(action: {
+                    var urlComponents = URLComponents(string: studentLocation.mediaURL)!
+                    if urlComponents.scheme == nil {
+                        urlComponents.scheme = "http"
+                    }
+                    let url = urlComponents.url!
+                    guard url.valid else {
+                        alertMessage = "Sorry, can't open \"\(studentLocation.mediaURL)\" because that link is invalid"
+                        isPresented = true
+                        return
+                    }
+
+                    openURL(url)
+                }, label: {
                     VStack(alignment: .leading) {
                         Text("\(studentLocation.firstName) \(studentLocation.lastName)")
                         Text(studentLocation.mediaURL)
                     }
-                }
+                })
+
             }
+            .alert(isPresented: $isPresented, content: {
+                Alert(title: Text("Invalid URL"), message: Text(alertMessage), dismissButton: Alert.Button.default(Text("OK")))
+            })
         }
     }
+
+    // MARK: - methods
+
 }
 
 struct ListStudentLocationsView_Previews: PreviewProvider {

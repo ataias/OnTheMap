@@ -16,10 +16,6 @@ extension OnTheMapApi {
                 return OnTheMapError.urlError(error)
             })
             .map { $0.data }
-            .map { (data: Data) -> Data in
-                let range = 5..<data.count
-                return data.subdata(in: range)
-            }
             .tryMap({ data throws -> StudentLocationResult in
                 let decoder = UdacitySessionToken.decoder
 

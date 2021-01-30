@@ -14,7 +14,7 @@ struct StudentLocation: Codable, Identifiable {
     let latitude: Double
     let longitude: Double
     let mapString: String
-    let mediaURL: String // TODO should I decode this a URL already?
+    let mediaURL: String
     let objectId: String
     let uniqueKey: String
     let updatedAt: Date
