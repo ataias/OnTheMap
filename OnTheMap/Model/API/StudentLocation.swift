@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 
 struct StudentLocation: Codable, Identifiable {
     let createdAt: Date
@@ -22,6 +23,14 @@ struct StudentLocation: Codable, Identifiable {
     var id: String {
         objectId
     }
+
+    var coordinate: CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+
+    var fullName: String {
+        firstName + " " + lastName
+    }
 }
 
 struct StudentLocationResult: Codable {
@@ -34,4 +43,8 @@ extension StudentLocation {
         let studentLocationResult = try! FileManager.read(StudentLocationResult.self, url)
         return studentLocationResult.results
     }()
+
+    static var sample: StudentLocation {
+        sampleArray[0]
+    }
 }

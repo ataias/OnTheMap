@@ -15,8 +15,7 @@ struct MapTabView: View {
     var body: some View {
         TabView(selection: $selection) {
             VStack {
-                Text("hi")
-                //                Map()
+                MapStudentLocationsView(studentLocations: studentLocations)
             }.tabItem {
                 Image(systemName: "map")
                 Text("Map")
