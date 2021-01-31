@@ -15,5 +15,24 @@ extension URL {
         let urlRegEx = "(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+"
         return NSPredicate(format: "SELF MATCHES %@", urlRegEx).evaluate(with: self.absoluteString)
     }
+
+    init?(from path: String, withDefaultScheme scheme: String) {
+        guard var urlComponents = URLComponents(string: path) else {
+            return nil
+        }
+
+        if urlComponents.scheme == nil {
+            urlComponents = URLComponents()
+            urlComponents.scheme = scheme
+            urlComponents.host = path
+        }
+        let url = urlComponents.url!
+
+        guard url.valid else {
+            return nil
+        }
+
+        self = url
+    }
 }
 

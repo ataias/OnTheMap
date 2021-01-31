@@ -46,27 +46,11 @@ struct ListStudentLocationsView: View {
 
     // MARK: - methods
     func openURL(path: String) {
-        // TODO this handling of the URL and scheme guessing could be in a separate function which is unit tested
-        guard var urlComponents = URLComponents(string: path) else {
+        if let url = URL(from: path, withDefaultScheme: "http") {
+            openURL(url)
+        } else {
             showAlertFor(badURL: path)
-            return
         }
-
-        if urlComponents.scheme == nil {
-            urlComponents = URLComponents()
-            urlComponents.scheme = "http"
-            urlComponents.host = path
-        }
-        let url = urlComponents.url!
-
-        print("URL: \(url.absoluteString)")
-
-        guard url.valid else {
-            showAlertFor(badURL: path)
-            return
-        }
-
-        openURL(url)
     }
 
     func showAlertFor(badURL: String) {
