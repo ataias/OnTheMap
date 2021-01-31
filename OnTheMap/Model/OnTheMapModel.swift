@@ -7,10 +7,12 @@
 
 import Foundation
 import Combine
+import CoreLocation
 
 class OnTheMapModel: ObservableObject, ApiClient {
     @Published var sessionToken: UdacitySessionToken? = nil
     @Published var studentLocations: [StudentLocation] = []
+    var findLocationCache: [String: [CLPlacemark]] = [:]
 
     static let sessionTokenURL = FileManager.documentsDirectory.appendingPathComponent("sessionToken.json")
     public init() {
@@ -92,6 +94,19 @@ class OnTheMapModel: ObservableObject, ApiClient {
                 }
             )
             .store(in: &cancellables)
+    }
 
+    func find(location: String, completionHandler: @escaping CLGeocodeCompletionHandler) {
+        if let landmark = findLocationCache[location] {
+            completionHandler(landmark, nil)
+            return
+        }
+
+        CLGeocoder().geocodeAddressString(location) { (result, error) in
+            if let landmark = result {
+                self.findLocationCache[location] = landmark
+            }
+            completionHandler(result, error)
+        }
     }
 }

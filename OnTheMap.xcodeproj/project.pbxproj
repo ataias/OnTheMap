@@ -29,6 +29,7 @@
 		42A41AA825C0C8AA001B37B5 /* OnTheMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A41AA725C0C8AA001B37B5 /* OnTheMapModel.swift */; };
 		42A452BE25C1619200EDF84C /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A452BD25C1619200EDF84C /* ApiClient.swift */; };
 		42B1775B25C7226D00423641 /* AddLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B1775A25C7226D00423641 /* AddLocationView.swift */; };
+		42B1775F25C7340F00423641 /* PickMapLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B1775E25C7340F00423641 /* PickMapLocationView.swift */; };
 		42BAD43525C6DD550093ACA5 /* OnTheMapApi+DeleteSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BAD43425C6DD550093ACA5 /* OnTheMapApi+DeleteSession.swift */; };
 		42BAD43925C6E72C0093ACA5 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BAD43825C6E72C0093ACA5 /* View+Extensions.swift */; };
 		42BAD43E25C6F0510093ACA5 /* PartialSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 42BAD43D25C6F0510093ACA5 /* PartialSheet */; };
@@ -75,6 +76,7 @@
 		42A41AA725C0C8AA001B37B5 /* OnTheMapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTheMapModel.swift; sourceTree = "<group>"; };
 		42A452BD25C1619200EDF84C /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		42B1775A25C7226D00423641 /* AddLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationView.swift; sourceTree = "<group>"; };
+		42B1775E25C7340F00423641 /* PickMapLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickMapLocationView.swift; sourceTree = "<group>"; };
 		42BAD43425C6DD550093ACA5 /* OnTheMapApi+DeleteSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnTheMapApi+DeleteSession.swift"; sourceTree = "<group>"; };
 		42BAD43825C6E72C0093ACA5 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		42CD03D225BEC85600EAB1E4 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,6 +186,7 @@
 				42CD03E825BED25700EAB1E4 /* AboutView.swift */,
 				426F530F25C2DFDD00C47B75 /* MapTabView.swift */,
 				42B1775A25C7226D00423641 /* AddLocationView.swift */,
+				42B1775E25C7340F00423641 /* PickMapLocationView.swift */,
 				4254552C25C56372002BA1A9 /* MapStudentLocationsView.swift */,
 				425F7B1925C56D09009A311B /* StudentLocationDetailView.swift */,
 				425F7B1525C569EE009A311B /* OnTheMapPinView.swift */,
@@ -322,6 +325,7 @@
 				425F7B1A25C56D09009A311B /* StudentLocationDetailView.swift in Sources */,
 				424FBFA625C16AD1008DC2DC /* UdacityError.swift in Sources */,
 				4244789825C4031A0033E176 /* ListStudentLocationsView.swift in Sources */,
+				42B1775F25C7340F00423641 /* PickMapLocationView.swift in Sources */,
 				4244789425C400EC0033E176 /* StudentLocation.swift in Sources */,
 				42A41AA525C0C1D7001B37B5 /* OnTheMapApi+PostSession.swift in Sources */,
 				42A41AA825C0C8AA001B37B5 /* OnTheMapModel.swift in Sources */,
