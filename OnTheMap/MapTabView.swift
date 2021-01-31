@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
-//import MapKit
+import PartialSheet
 
 struct MapTabView<T: ApiClient>: View {
-    @State private var selection = 1
     let studentLocations: [StudentLocation]
+
+    @State private var selection = 1
+    @State private var isAddingLocation = false
 
     @EnvironmentObject var apiClient: T
 
@@ -28,6 +30,20 @@ struct MapTabView<T: ApiClient>: View {
                     Text("List")
                 }.tag(2)
         }
+        .fullScreenCover(isPresented: $isAddingLocation) {
+            NavigationView {
+                AddLocationView()
+                    .navigationTitle("Add Location")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button("Cancel") {
+                                isAddingLocation = false
+                            }
+                        }
+                    }
+            }
+        }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("OnTheMap")
         .toolbar {
@@ -39,15 +55,33 @@ struct MapTabView<T: ApiClient>: View {
                         .font(.caption)
                 })
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                HStack {
+                    Button(action: {
+                        // TODO
+                    }, label: {
+                        Image(systemName: "arrow.triangle.2.circlepath")
+                    })
+                    .disabled(true)
+                    Button(action: {
+                        isAddingLocation = true
+                    }, label: {
+                        Image(systemName: "plus")
+                    })
+                }
+            }
         }
     }
 }
 
 struct TabView_Previews: PreviewProvider {
+    static let sheetManager: PartialSheetManager = PartialSheetManager()
+
     static var previews: some View {
         NavigationView {
             MapTabView<MockApiClient>(studentLocations: StudentLocation.sampleArray)
                 .environmentObject(MockApiClient())
+                .environmentObject(sheetManager)
         }
     }
 }
