@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import PartialSheet
 
 struct MapStudentLocationsView: View {
     let studentLocations: [StudentLocation]
@@ -14,29 +15,35 @@ struct MapStudentLocationsView: View {
     @State private var coordinateRegion = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 56.948889, longitude: 24.106389),
         span: MKCoordinateSpan(latitudeDelta: 15, longitudeDelta: 15))
-    @State private var presentedStudentLocation: StudentLocation? = nil
+
+    @EnvironmentObject var sheetManager: PartialSheetManager
 
     var body: some View {
+
         Map(coordinateRegion: $coordinateRegion,
             annotationItems: studentLocations,
             annotationContent: mapAnnotation(location:)
         )
-        .sheet(item: $presentedStudentLocation) { location in
-            StudentLocationDetailView(studentLocation: location)
-        }
+        .addPartialSheet()
+
     }
 
     func mapAnnotation(location: StudentLocation) -> MapAnnotation<OnTheMapPinView> {
         MapAnnotation(coordinate: location.coordinate) {
             OnTheMapPinView(action: {
-                presentedStudentLocation = location
+                sheetManager.showPartialSheet {
+                    StudentLocationDetailView(studentLocation: location)
+                }
             })
         }
     }
 }
 
 struct MapStudentLocationsView_Previews: PreviewProvider {
+    static let sheetManager = PartialSheetManager()
+
     static var previews: some View {
         MapStudentLocationsView(studentLocations: StudentLocation.sampleArray)
+            .environmentObject(sheetManager)
     }
 }
