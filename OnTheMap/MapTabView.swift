@@ -8,9 +8,11 @@
 import SwiftUI
 //import MapKit
 
-struct MapTabView: View {
-    @State private var selection = 2
+struct MapTabView<T: ApiClient>: View {
+    @State private var selection = 1
     let studentLocations: [StudentLocation]
+
+    @EnvironmentObject var apiClient: T
 
     var body: some View {
         TabView(selection: $selection) {
@@ -26,14 +28,26 @@ struct MapTabView: View {
                     Text("List")
                 }.tag(2)
         }
+        .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("OnTheMap")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    apiClient.logout()
+                }, label: {
+                    Text("Logout")
+                        .font(.caption)
+                })
+            }
+        }
     }
 }
 
 struct TabView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            MapTabView(studentLocations: StudentLocation.sampleArray)
+            MapTabView<MockApiClient>(studentLocations: StudentLocation.sampleArray)
+                .environmentObject(MockApiClient())
         }
     }
 }

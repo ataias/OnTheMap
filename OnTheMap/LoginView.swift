@@ -10,7 +10,12 @@ import SwiftUI
 struct LoginView<T: ApiClient>: View {
     @State private var email = ""
     @State private var password = ""
+    @State private var isLoggingIn = false
     @EnvironmentObject var client: T
+
+    private var isFilled: Bool {
+        email.count != 0 && password.count != 0
+    }
 
     var body: some View {
         VStack {
@@ -23,12 +28,19 @@ struct LoginView<T: ApiClient>: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .disableAutocorrection(true)
                 .autocapitalization(.none)
-            SecureField("Password", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+            SecureField("Password", text: $password) {
+                if isFilled {
+                    login()
+                }
+            }
+            .textFieldStyle(RoundedBorderTextFieldStyle())
             
             Button("Login") {
-                client.login(username: email, password: password)
+                login()
             }
+            .disabled(!isFilled || isLoggingIn)
+            ProgressView()
+                .hidden(if: !isLoggingIn)
             Spacer()
             HStack {
                 Text("Don't have an account?")
@@ -38,6 +50,15 @@ struct LoginView<T: ApiClient>: View {
         }
         .padding([.leading, .trailing])
         .font(.title2)
+    }
+
+    func login() {
+        isLoggingIn = true
+        client.login(
+            username: email,
+            password: password) {
+            isLoggingIn = false
+        }
     }
 }
 

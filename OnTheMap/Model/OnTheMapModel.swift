@@ -28,7 +28,7 @@ class OnTheMapModel: ObservableObject, ApiClient {
 
     private var cancellables: Set<AnyCancellable> = []
 
-    func login(username: String, password: String) {
+    func login(username: String, password: String, completion: @escaping () -> Void) {
         guard username != "" && password != "" else {
             print("Session can't be created with empty credentials")
             return
@@ -43,12 +43,32 @@ class OnTheMapModel: ObservableObject, ApiClient {
                         print("Error when running \(#function): \(error)")
                     case .finished:
                         print("Finished \(#function) successfully")
+                        completion()
                     }
                 },
                 receiveValue: {
                     self.sessionToken = $0
                     try! FileManager.save(self.sessionToken, to: Self.sessionTokenURL)
-                    print("Session token: \($0)")
+                }
+            )
+            .store(in: &cancellables)
+    }
+
+    func logout() {
+        OnTheMapApi.deleteSession()
+            .receive(on: DispatchQueue.main)
+            .sink(
+                receiveCompletion: { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Error when running \(#function): \(error)")
+                    case .finished:
+                        print("Finished \(#function) successfully")
+                    }
+                },
+                receiveValue: {
+                    try? FileManager.default.removeItem(at: Self.sessionTokenURL)
+                    self.sessionToken = nil
                 }
             )
             .store(in: &cancellables)

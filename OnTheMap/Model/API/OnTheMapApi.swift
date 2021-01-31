@@ -14,6 +14,7 @@ enum OnTheMapApi: URLRequestRepresentable {
     static let baseURL = URL(string: "https://onthemap-api.udacity.com/v1/")!
 
     case postSession(username: String, password: String)
+    case deleteSession
     case getStudentLocations(limit: Int, skip: Int, orderBy: OrderBy)
 
     var urlRequest: URLRequest {
@@ -24,6 +25,13 @@ enum OnTheMapApi: URLRequestRepresentable {
             request.addValue("application/json", forHTTPHeaderField: "Accept")
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = try! JSONEncoder().encode(UdacitySessionCredentials(username: username, password: password))
+            return request
+        case .deleteSession:
+            var request = URLRequest(url: Self.baseURL.appendingPathComponent("session"))
+            request.httpMethod = "DELETE"
+            if let xsrfCookie = HTTPCookieStorage.shared.cookies!.first(where: { $0.name == "XSRF-TOKEN" }) {
+                request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+            }
             return request
         case .getStudentLocations(limit: let limit, skip: let skip, orderBy: let orderBy):
             var components = URLComponents(url: Self.baseURL.appendingPathComponent("StudentLocation"), resolvingAgainstBaseURL: true)!

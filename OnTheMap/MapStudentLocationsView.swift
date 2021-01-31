@@ -20,7 +20,7 @@ struct MapStudentLocationsView: View {
         Map(coordinateRegion: $coordinateRegion,
             annotationItems: studentLocations,
             annotationContent: mapAnnotation(location:)
-        ).edgesIgnoringSafeArea(.all)
+        )
         .sheet(item: $presentedStudentLocation) { location in
             StudentLocationDetailView(studentLocation: location)
         }

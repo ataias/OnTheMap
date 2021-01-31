@@ -14,7 +14,7 @@ struct MainView<T: ApiClient>: View {
     var body: some View {
         NavigationView {
             if authenticated {
-                MapTabView(studentLocations: studentLocations)
+                MapTabView<T>(studentLocations: studentLocations)
             } else {
                 LoginView<T>()
                     .sheet(isPresented: $isPresented, content: {
