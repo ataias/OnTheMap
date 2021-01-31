@@ -28,11 +28,13 @@ struct StudentLocationDetailView: View {
     var body: some View {
         LazyVGrid(columns: columns, spacing: 2) {
             HorizontalItemView(title: "Name", value: studentLocation.fullName)
+            HorizontalItemView(title: "URL", value: studentLocation.mediaURL, isUrl: true)
             HorizontalItemView(title: "Latitude", value: studentLocation.latitude)
             HorizontalItemView(title: "Longitude", value: studentLocation.longitude)
             HorizontalItemView(title: "Location", value: studentLocation.mapString)
             HorizontalItemView(title: "Created At", value: studentLocation.formattedCreatedAt)
             HorizontalItemView(title: "Updated At", value: studentLocation.formattedUpdatedAt)
+            
         }
         .font(.body)
         .padding()
