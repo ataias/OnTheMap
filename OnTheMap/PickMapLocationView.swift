@@ -10,17 +10,17 @@ import SwiftUI
 
 struct PickMapLocationView: View {
     @Binding var coordinateRegion: MKCoordinateRegion
-    @Binding var studentLocation: StudentLocation
     
     var body: some View {
-        Map(coordinateRegion: $coordinateRegion,
-            annotationItems: [studentLocation],
-            annotationContent: mapAnnotation(location:)
-        )
+        Map(coordinateRegion: $coordinateRegion)
+            .overlay(pin)
     }
 
-    func mapAnnotation(location: StudentLocation) -> MapPin {
-        MapPin(coordinate: location.coordinate)
+    @ViewBuilder
+    var pin: some View {
+        Image(systemName: "mappin")
+            .font(.title)
+            .foregroundColor(.red)
     }
 }
 
@@ -30,9 +30,6 @@ struct PickMapLocationView_Previews: PreviewProvider {
         span: MKCoordinateSpan(latitudeDelta: 15, longitudeDelta: 15))
 
     static var previews: some View {
-        PickMapLocationView(
-            coordinateRegion: .constant(coordinateRegion),
-            studentLocation: .constant(StudentLocation.sample)
-        )
+        PickMapLocationView(coordinateRegion: .constant(coordinateRegion))
     }
 }
