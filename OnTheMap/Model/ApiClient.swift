@@ -13,6 +13,7 @@ protocol ApiClient: ObservableObject {
     func login(username: String, password: String, completion: @escaping () -> Void)
     func logout()
     func getStudentLocations(limit: Int, skip: Int, orderBy: OnTheMapApi.OrderBy)
+    func postStudentLocation(payload: OnTheMapApi.StudentLocationPayload)
     func find(location: String, completionHandler: @escaping CLGeocodeCompletionHandler)
 
 }
@@ -34,5 +35,8 @@ class MockApiClient: ApiClient, ObservableObject {
     func find(location: String, completionHandler: @escaping CLGeocodeCompletionHandler) {
         print("Calling \(#function) with location = \"\(location)\"")
     }
-    
+
+    func postStudentLocation(payload: OnTheMapApi.StudentLocationPayload) {
+        print("Calling \(#function) with \(payload)")
+    }
 }

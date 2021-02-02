@@ -96,6 +96,28 @@ class OnTheMapModel: ObservableObject, ApiClient {
             .store(in: &cancellables)
     }
 
+    func postStudentLocation(payload: OnTheMapApi.StudentLocationPayload) {
+        OnTheMapApi.postStudentLocation(payload: payload)
+            .receive(on: DispatchQueue.main)
+            .retry(3)
+            .sink(
+                receiveCompletion: { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Error when running \(#function): \(error)")
+                    case .finished:
+                        print("Finished \(#function) successfully")
+                    }
+                },
+                receiveValue: {
+                    // TODO what to do here?
+                    print($0)
+                }
+            )
+            .store(in: &cancellables)
+    }
+
+
     func find(location: String, completionHandler: @escaping CLGeocodeCompletionHandler) {
         if let landmark = findLocationCache[location] {
             completionHandler(landmark, nil)

@@ -10,6 +10,8 @@ import CoreLocation
 import MapKit
 
 struct AddLocationView<T: ApiClient>: View {
+    @Binding var isAddingLocation: Bool
+
     @State private var locationGeocode = ""
     @State private var url = ""
     /// The results of forward geolocation based on user-given geocode
@@ -66,7 +68,12 @@ struct AddLocationView<T: ApiClient>: View {
                 .textContentType(.URL)
                 .border(validURL ? Color(UIColor.separator) : Color.red)
             NavigationLink(
-                destination: PickMapLocationView(coordinateRegion: $coordinateRegion),
+                destination: PickMapLocationView(coordinateRegion: $coordinateRegion, completion: {
+
+                    // TODO
+//                    apiClient.postStudentLocation(payload: <#T##OnTheMapApi.StudentLocationPayload#>)
+                    isAddingLocation = false
+                }),
                 isActive: isPickingLocationBinding,
                 label: {
                     StyledButton(text: "Find Location") {
@@ -81,8 +88,6 @@ struct AddLocationView<T: ApiClient>: View {
         }
         .padding()
         .onChange(of: locationGeocode, perform: { _ in
-
-            // FIXME when changing the location, it seems the new region is not set
             self.landmarks = nil
         })
     }
@@ -106,7 +111,7 @@ struct AddLocationView<T: ApiClient>: View {
 
 struct AddLocationView_Previews: PreviewProvider {
     static var previews: some View {
-        AddLocationView<MockApiClient>()
+        AddLocationView<MockApiClient>(isAddingLocation: .constant(true))
             .environmentObject(MockApiClient())
     }
 }

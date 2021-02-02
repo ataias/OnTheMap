@@ -40,14 +40,19 @@ struct StudentLocation: Codable, Identifiable {
     }
 }
 
-struct StudentLocationResult: Codable {
+struct GetStudentLocationsResult: Codable {
     let results: [StudentLocation]
+}
+
+struct PostStudentLocationResult: Codable {
+    let objectId: String
+    let createdAt: Date
 }
 
 extension StudentLocation {
     static let sampleArray: [StudentLocation] = {
         let url = Bundle.main.url(forResource: "studentLocationsDummy", withExtension: ".json")!
-        let studentLocationResult = try! FileManager.read(StudentLocationResult.self, url)
+        let studentLocationResult = try! FileManager.read(GetStudentLocationsResult.self, url)
         return studentLocationResult.results
     }()
 

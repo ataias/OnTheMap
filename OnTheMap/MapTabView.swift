@@ -32,7 +32,7 @@ struct MapTabView<T: ApiClient>: View {
         }
         .fullScreenCover(isPresented: $isAddingLocation) {
             NavigationView {
-                AddLocationView<T>()
+                AddLocationView<T>(isAddingLocation: $isAddingLocation)
                     .navigationTitle("Add Location")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {

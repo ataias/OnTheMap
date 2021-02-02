@@ -16,6 +16,7 @@ enum OnTheMapApi: URLRequestRepresentable {
     case postSession(username: String, password: String)
     case deleteSession
     case getStudentLocations(limit: Int, skip: Int, orderBy: OrderBy)
+    case postStudentLocation(StudentLocationPayload)
 
     var urlRequest: URLRequest {
         switch self {
@@ -41,6 +42,12 @@ enum OnTheMapApi: URLRequestRepresentable {
                 URLQueryItem(name: "order", value: "\(orderBy)")
             ]
             return URLRequest(url: components.url!)
+        case .postStudentLocation(let payload):
+            var request = URLRequest(url: Self.baseURL.appendingPathComponent("StudentLocation"))
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = try! JSONEncoder().encode(payload)
+            return request
         }
     }
 
@@ -70,6 +77,16 @@ enum OnTheMapApi: URLRequestRepresentable {
             }
         }
 
+    }
+
+    struct StudentLocationPayload: Codable {
+        let uniqueKey: String
+        let firstName: String
+        let lastName: String
+        let mapString: String
+        let mediaURL: URL
+        let latitude: Double
+        let longitude: Double
     }
 }
 

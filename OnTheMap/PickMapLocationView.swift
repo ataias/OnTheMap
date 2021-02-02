@@ -10,13 +10,14 @@ import SwiftUI
 
 struct PickMapLocationView: View {
     @Binding var coordinateRegion: MKCoordinateRegion
+    let completion: () -> Void
     
     var body: some View {
         Map(coordinateRegion: $coordinateRegion)
             .overlay(pin)
             .overlay(
                 // TODO implement action for this button
-                StyledButton(text: "Finish", action: {})
+                StyledButton(text: "Finish", action: completion)
                     .padding([.trailing, .leading]),
                 alignment: .bottom)
     }
@@ -35,6 +36,6 @@ struct PickMapLocationView_Previews: PreviewProvider {
         span: MKCoordinateSpan(latitudeDelta: 15, longitudeDelta: 15))
 
     static var previews: some View {
-        PickMapLocationView(coordinateRegion: .constant(coordinateRegion))
+        PickMapLocationView(coordinateRegion: .constant(coordinateRegion), completion: {})
     }
 }
