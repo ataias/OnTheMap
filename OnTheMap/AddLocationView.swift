@@ -69,13 +69,13 @@ struct AddLocationView<T: ApiClient>: View {
                 destination: PickMapLocationView(coordinateRegion: $coordinateRegion),
                 isActive: isPickingLocationBinding,
                 label: {
-                    Button(action: {
+                    StyledButton(text: "Find Location") {
                         findLocation()
                         isFindingLocation = true
-                    }, label: {
-                        Text("Find Location")
-                    })
+                    }
                 })
+                .padding(.top)
+            
             ProgressView()
                 .hidden(if: !isFindingLocation)
         }

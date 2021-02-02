@@ -35,10 +35,12 @@ struct LoginView<T: ApiClient>: View {
             }
             .textFieldStyle(RoundedBorderTextFieldStyle())
             
-            Button("Login") {
+            StyledButton(text: "Login") {
                 login()
             }
+            .padding(.top)
             .disabled(!isFilled || isLoggingIn)
+            
             ProgressView()
                 .hidden(if: !isLoggingIn)
             Spacer()

@@ -14,6 +14,11 @@ struct PickMapLocationView: View {
     var body: some View {
         Map(coordinateRegion: $coordinateRegion)
             .overlay(pin)
+            .overlay(
+                // TODO implement action for this button
+                StyledButton(text: "Finish", action: {})
+                    .padding([.trailing, .leading]),
+                alignment: .bottom)
     }
 
     @ViewBuilder
