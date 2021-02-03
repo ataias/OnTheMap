@@ -19,7 +19,7 @@ struct OnTheMapApp: App {
                 .environmentObject(model)
                 .environmentObject(sheetManager)
                 .onAppear(perform: {
-                    model.getStudentLocations(limit: 100, skip: 0, orderBy: .ascending(.createdAt))
+                    model.getStudentLocations(limit: 100, skip: 0, orderBy: .ascending(.updatedAt), completion: {})
                 })
         }
     }

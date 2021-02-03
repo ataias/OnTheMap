@@ -15,6 +15,7 @@ enum OnTheMapApi: URLRequestRepresentable {
 
     case postSession(username: String, password: String)
     case deleteSession
+    case getStudent(id: String)
     case getStudentLocations(limit: Int, skip: Int, orderBy: OrderBy)
     case postStudentLocation(StudentLocationPayload)
 
@@ -34,6 +35,9 @@ enum OnTheMapApi: URLRequestRepresentable {
                 request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
             }
             return request
+        case .getStudent(id: let id):
+            let url = Self.baseURL.appendingPathComponent("users").appendingPathComponent(id)
+            return URLRequest(url: url)
         case .getStudentLocations(limit: let limit, skip: let skip, orderBy: let orderBy):
             var components = URLComponents(url: Self.baseURL.appendingPathComponent("StudentLocation"), resolvingAgainstBaseURL: true)!
             components.queryItems = [

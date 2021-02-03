@@ -10,8 +10,9 @@ import Combine
 import CoreLocation
 
 class OnTheMapModel: ObservableObject, ApiClient {
-    @Published var sessionToken: UdacitySessionToken? = nil
+    @Published var sessionToken: UdacitySessionToken! = nil
     @Published var studentLocations: [StudentLocation] = []
+    @Published var user: User! = nil
     var findLocationCache: [String: [CLPlacemark]] = [:]
 
     static let sessionTokenURL = FileManager.documentsDirectory.appendingPathComponent("sessionToken.json")
@@ -19,6 +20,7 @@ class OnTheMapModel: ObservableObject, ApiClient {
         if FileManager.default.fileExists(atPath: Self.sessionTokenURL.path) {
             self.sessionToken = try! FileManager.read(UdacitySessionToken.self, Self.sessionTokenURL)
         }
+        getStudentData()
     }
 
     var authenticated: Bool {
@@ -76,8 +78,14 @@ class OnTheMapModel: ObservableObject, ApiClient {
             .store(in: &cancellables)
     }
 
-    func getStudentLocations(limit: Int, skip: Int, orderBy: OnTheMapApi.OrderBy) {
-        OnTheMapApi.getStudentLocations(limit: limit, skip: skip, orderBy: orderBy)
+    func getStudentData() {
+        $sessionToken
+            .compactMap { sessionToken -> String? in
+                sessionToken?.account.key
+            }
+            .flatMap {
+                OnTheMapApi.getStudentData(id: $0)
+            }
             .receive(on: DispatchQueue.main)
             .retry(3)
             .sink(
@@ -90,13 +98,34 @@ class OnTheMapModel: ObservableObject, ApiClient {
                     }
                 },
                 receiveValue: {
+                    self.user = $0
+                }
+            )
+            .store(in: &cancellables)
+    }
+
+    func getStudentLocations(limit: Int, skip: Int, orderBy: OnTheMapApi.OrderBy, completion: @escaping () -> Void) {
+        OnTheMapApi.getStudentLocations(limit: limit, skip: skip, orderBy: orderBy)
+            .receive(on: DispatchQueue.main)
+            .retry(3)
+            .sink(
+                receiveCompletion: { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Error when running \(#function): \(error)")
+                    case .finished:
+                        completion()
+                        print("Finished \(#function) successfully")
+                    }
+                },
+                receiveValue: {
                     self.studentLocations = $0.results
                 }
             )
             .store(in: &cancellables)
     }
 
-    func postStudentLocation(payload: OnTheMapApi.StudentLocationPayload) {
+    func postStudentLocation(payload: OnTheMapApi.StudentLocationPayload, completion: @escaping () -> Void) {
         OnTheMapApi.postStudentLocation(payload: payload)
             .receive(on: DispatchQueue.main)
             .retry(3)
@@ -109,9 +138,8 @@ class OnTheMapModel: ObservableObject, ApiClient {
                         print("Finished \(#function) successfully")
                     }
                 },
-                receiveValue: {
-                    // TODO what to do here?
-                    print($0)
+                receiveValue: { _ in
+                    completion()
                 }
             )
             .store(in: &cancellables)

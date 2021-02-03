@@ -13,8 +13,13 @@ struct MapTabView<T: ApiClient>: View {
 
     @State private var selection = 1
     @State private var isAddingLocation = false
+    @State private var isReloading = false
 
     @EnvironmentObject var apiClient: T
+
+    var animation: Animation {
+        Animation.easeInOut(duration: 2.0)
+    }
 
     var body: some View {
         TabView(selection: $selection) {
@@ -58,11 +63,16 @@ struct MapTabView<T: ApiClient>: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack {
                     Button(action: {
-                        // TODO
+                        isReloading = true
+                        apiClient.getStudentLocations(limit: 100, skip: 0, orderBy: .ascending(.updatedAt)) {
+                            isReloading = false
+                        }
                     }, label: {
                         Image(systemName: "arrow.triangle.2.circlepath")
+
                     })
-                    .disabled(true)
+                    .rotationEffect(Angle.degrees(isReloading ? 90 : 0))
+                    .animation(animation)
                     Button(action: {
                         isAddingLocation = true
                     }, label: {

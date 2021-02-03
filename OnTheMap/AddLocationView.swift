@@ -41,6 +41,14 @@ struct AddLocationView<T: ApiClient>: View {
         return false
     }
 
+    var latitude: Double {
+        coordinateRegion.center.latitude
+    }
+
+    var longitude: Double {
+        coordinateRegion.center.longitude
+    }
+
     var body: some View {
 
         /// A binding that only accepts a setting to turn it off
@@ -70,9 +78,25 @@ struct AddLocationView<T: ApiClient>: View {
             NavigationLink(
                 destination: PickMapLocationView(coordinateRegion: $coordinateRegion, completion: {
 
-                    // TODO
-//                    apiClient.postStudentLocation(payload: <#T##OnTheMapApi.StudentLocationPayload#>)
-                    isAddingLocation = false
+                    guard let sessionToken = apiClient.sessionToken else {
+                        fatalError("Undefined sessionToken; can't send location")
+                    }
+                    guard let user = apiClient.user else {
+                        fatalError("User is not initialized")
+                    }
+                    let payload = OnTheMapApi.StudentLocationPayload(
+                        uniqueKey: sessionToken.account.key,
+                        firstName: user.firstName ?? "Unknown firstName",
+                        lastName: user.lastName ?? "Unknown lastName",
+                        mapString: locationGeocode,
+                        mediaURL: URL(string: url)!,
+                        latitude: latitude,
+                        longitude: longitude
+                    )
+                    apiClient.postStudentLocation(payload: payload) {
+                        self.isAddingLocation = false
+                    }
+
                 }),
                 isActive: isPickingLocationBinding,
                 label: {
