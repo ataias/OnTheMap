@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PartialSheet
 
 struct MainView<T: ApiClient>: View {
     @State private var isPresented = false
@@ -42,6 +43,7 @@ struct ContentView_Previews: PreviewProvider {
             MainView<MockApiClient>(authenticated: false, studentLocations: StudentLocation.sampleArray)
             MainView<MockApiClient>(authenticated: true, studentLocations: StudentLocation.sampleArray)
         }
-            .environmentObject(MockApiClient())
+        .environmentObject(MockApiClient())
+        .environmentObject(PartialSheetManager())
     }
 }
