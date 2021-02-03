@@ -1,0 +1,11 @@
+= OnTheMap
+
+This is an app made as part of the iOS Developer course from Udacity. The summary is:
+
+
+[quote, App Specification for On the Map by Udacity]
+----
+The On The Map app allows users to share their location and a URL with their fellow students. To visualize this data, On The Map uses a map with pins for location and pin annotations for student names and URLs, allowing students to place themselves “on the map,” so to speak.
+----
+
+For what is worth, the available API from Udacity for this app uses fake data, so it presents odd behaviour sometimes. In particular, I saw the endpoint to get public user data vary the structure between a dictionary with a wrapped object `{ "user": { ... } }` and also unwrapped `{ ... }`. In this project I just assume the first one always happens. This endpoint also has missing data sometimes, like the first name and last name.
