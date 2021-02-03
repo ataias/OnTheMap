@@ -11,6 +11,8 @@ struct LoginView<T: ApiClient>: View {
     @State private var email = ""
     @State private var password = ""
     @State private var isLoggingIn = false
+    @State private var isPresented = false
+    @State private var alertMessage = ""
     @EnvironmentObject var client: T
 
     private var isFilled: Bool {
@@ -52,14 +54,23 @@ struct LoginView<T: ApiClient>: View {
         }
         .padding([.leading, .trailing])
         .font(.title2)
+        .alert(isPresented: $isPresented, content: {
+            Alert(title: Text("Error when logging in"), message: Text(alertMessage), dismissButton: Alert.Button.default(Text("OK")))
+        })
     }
 
     func login() {
         isLoggingIn = true
-        client.login(
-            username: email,
-            password: password) {
+        client.login(username: email, password: password) { result in
             isLoggingIn = false
+
+            switch result {
+            case .success:
+                return
+            case .failure(let error):
+                alertMessage = error.localizedDescription
+                isPresented = true
+            }
         }
     }
 }

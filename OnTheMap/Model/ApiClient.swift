@@ -12,7 +12,7 @@ import CoreLocation
 protocol ApiClient: ObservableObject {
     var sessionToken: UdacitySessionToken! { get }
     var user: User! { get }
-    func login(username: String, password: String, completion: @escaping () -> Void)
+    func login(username: String, password: String, completion: @escaping (Result<(), Error>) -> Void)
     func logout()
     func getStudentLocations(limit: Int, skip: Int, orderBy: OnTheMapApi.OrderBy, completion: @escaping () -> Void)
     func postStudentLocation(payload: OnTheMapApi.StudentLocationPayload, completion: @escaping () -> Void)
@@ -29,9 +29,9 @@ class MockApiClient: ApiClient, ObservableObject {
         User(nickname: "nickname", firstName: "Fulano", lastName: "de Tal")
     }
 
-    func login(username: String, password: String, completion: () -> Void) {
+    func login(username: String, password: String, completion: (Result<(), Error>) -> Void) {
         print("Logging in with username: \(username) and password: \(password)")
-        completion()
+        completion(Result.success(()))
     }
 
     func logout() {

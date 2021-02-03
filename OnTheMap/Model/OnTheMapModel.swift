@@ -32,7 +32,7 @@ class OnTheMapModel: ObservableObject, ApiClient {
 
     private var cancellables: Set<AnyCancellable> = []
 
-    func login(username: String, password: String, completion: @escaping () -> Void) {
+    func login(username: String, password: String, completion: @escaping (Result<(), Error>) -> Void) {
         guard username != "" && password != "" else {
             print("Session can't be created with empty credentials")
             return
@@ -44,11 +44,13 @@ class OnTheMapModel: ObservableObject, ApiClient {
                 receiveCompletion: { result in
                     switch result {
                     case .failure(let error):
+                        completion(Result.failure(error))
                         print("Error when running \(#function): \(error)")
                     case .finished:
+                        completion(Result.success(()))
                         print("Finished \(#function) successfully")
-                        completion()
                     }
+
                 },
                 receiveValue: {
                     self.sessionToken = $0
