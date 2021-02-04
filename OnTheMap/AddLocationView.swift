@@ -25,6 +25,9 @@ struct AddLocationView<T: ApiClient>: View {
         center: CLLocationCoordinate2D(latitude: -45, longitude: 45),
         span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
 
+    @State private var isAlertPresented = false
+    @State private var alertMessage = ""
+
     @EnvironmentObject var apiClient: T
 
     var validGeocode: Bool {
@@ -101,8 +104,13 @@ struct AddLocationView<T: ApiClient>: View {
                 isActive: isPickingLocationBinding,
                 label: {
                     StyledButton(text: "Find Location") {
-                        findLocation()
-                        isFindingLocation = true
+                        if validURL {
+                            findLocation()
+                            isFindingLocation = true
+                        } else {
+                            alertMessage = "URL \"\(url)\" is invalid"
+                            isAlertPresented = true
+                        }
                     }
                 })
                 .padding(.top)
@@ -110,6 +118,9 @@ struct AddLocationView<T: ApiClient>: View {
             ProgressView()
                 .hidden(if: !isFindingLocation)
         }
+        .alert(isPresented: $isAlertPresented, content: {
+            Alert(title: Text("Invalid URL"), message: Text(alertMessage), dismissButton: Alert.Button.default(Text("OK")))
+        })
         .padding()
         .onChange(of: locationGeocode, perform: { _ in
             self.landmarks = nil
