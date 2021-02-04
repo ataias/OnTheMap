@@ -18,7 +18,7 @@ extension HorizontalAlignment {
 }
 
 struct StudentLocationDetailView: View {
-    let studentLocation: StudentLocation
+    let studentLocation: StudentInformation
 
     var columns: [GridItem] = [
         .init(.fixed(150)),
@@ -43,6 +43,6 @@ struct StudentLocationDetailView: View {
 
 struct StudentLocationDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        StudentLocationDetailView(studentLocation: StudentLocation.sample)
+        StudentLocationDetailView(studentLocation: StudentInformation.sample)
     }
 }

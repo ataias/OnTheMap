@@ -11,7 +11,7 @@ import PartialSheet
 struct MainView<T: ApiClient>: View {
     @State private var isPresented = false
     let authenticated: Bool
-    let studentLocations: [StudentLocation]
+    let studentLocations: [StudentInformation]
     var body: some View {
         NavigationView {
             if authenticated {
@@ -40,8 +40,8 @@ struct MainView<T: ApiClient>: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            MainView<MockApiClient>(authenticated: false, studentLocations: StudentLocation.sampleArray)
-            MainView<MockApiClient>(authenticated: true, studentLocations: StudentLocation.sampleArray)
+            MainView<MockApiClient>(authenticated: false, studentLocations: StudentInformation.sampleArray)
+            MainView<MockApiClient>(authenticated: true, studentLocations: StudentInformation.sampleArray)
         }
         .environmentObject(MockApiClient())
         .environmentObject(PartialSheetManager())

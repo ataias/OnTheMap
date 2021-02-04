@@ -26,7 +26,7 @@ struct AddLocationView<T: ApiClient>: View {
         span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
 
     @State private var isAlertPresented = false
-    @State private var alertMessage = ""
+    @State private var alertInfo: AlertInfo!
 
     @EnvironmentObject var apiClient: T
 
@@ -96,8 +96,18 @@ struct AddLocationView<T: ApiClient>: View {
                         latitude: latitude,
                         longitude: longitude
                     )
-                    apiClient.postStudentLocation(payload: payload) {
-                        self.isAddingLocation = false
+                    apiClient.postStudentLocation(payload: payload) { result in
+                        switch result {
+                        case .failure(let error):
+                            alertInfo = AlertInfo(
+                                title: "Posting failed",
+                                message: "Failed posting location: \"\(error.localizedDescription)\""
+                            )
+                            isAlertPresented = true
+                        case .success:
+                            self.isAddingLocation = false
+                        }
+
                     }
 
                 }),
@@ -108,7 +118,7 @@ struct AddLocationView<T: ApiClient>: View {
                             findLocation()
                             isFindingLocation = true
                         } else {
-                            alertMessage = "URL \"\(url)\" is invalid"
+                            alertInfo = AlertInfo(title: "Invalid URL", message: "URL \"\(url)\" is invalid")
                             isAlertPresented = true
                         }
                     }
@@ -119,7 +129,7 @@ struct AddLocationView<T: ApiClient>: View {
                 .hidden(if: !isFindingLocation)
         }
         .alert(isPresented: $isAlertPresented, content: {
-            Alert(title: Text("Invalid URL"), message: Text(alertMessage), dismissButton: Alert.Button.default(Text("OK")))
+            Alert(title: Text(alertInfo.title), message: Text(alertInfo.message), dismissButton: Alert.Button.default(Text("OK")))
         })
         .padding()
         .onChange(of: locationGeocode, perform: { _ in
@@ -132,7 +142,10 @@ struct AddLocationView<T: ApiClient>: View {
             DispatchQueue.main.async {
                 self.isFindingLocation = false
                 if let error = error {
-                    alertMessage = "Geocoding the entered location \"\(locationGeocode)\" failed: \(error.localizedDescription)"
+                    alertInfo = AlertInfo(
+                        title: "Geocoding Failed",
+                        message: "Geocoding the entered location \"\(locationGeocode)\" failed: \(error.localizedDescription)"
+                    )
                     isAlertPresented = true
                     return
                 }

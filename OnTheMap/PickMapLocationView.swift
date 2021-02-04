@@ -31,7 +31,7 @@ struct PickMapLocationView: View {
 
 struct PickMapLocationView_Previews: PreviewProvider {
     static let coordinateRegion = MKCoordinateRegion(
-        center: StudentLocation.sample.coordinate,
+        center: StudentInformation.sample.coordinate,
         span: MKCoordinateSpan(latitudeDelta: 15, longitudeDelta: 15))
 
     static var previews: some View {

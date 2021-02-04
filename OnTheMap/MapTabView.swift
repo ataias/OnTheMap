@@ -9,7 +9,7 @@ import SwiftUI
 import PartialSheet
 
 struct MapTabView<T: ApiClient>: View {
-    let studentLocations: [StudentLocation]
+    let studentLocations: [StudentInformation]
 
     @State private var selection = 1
     @State private var isAddingLocation = false
@@ -89,7 +89,7 @@ struct TabView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationView {
-            MapTabView<MockApiClient>(studentLocations: StudentLocation.sampleArray)
+            MapTabView<MockApiClient>(studentLocations: StudentInformation.sampleArray)
                 .environmentObject(MockApiClient())
                 .environmentObject(sheetManager)
         }

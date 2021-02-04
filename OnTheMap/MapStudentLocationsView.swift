@@ -10,7 +10,7 @@ import MapKit
 import PartialSheet
 
 struct MapStudentLocationsView: View {
-    let studentLocations: [StudentLocation]
+    let studentLocations: [StudentInformation]
 
     @State private var coordinateRegion = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 56.948889, longitude: 24.106389),
@@ -28,7 +28,7 @@ struct MapStudentLocationsView: View {
 
     }
 
-    func mapAnnotation(location: StudentLocation) -> MapAnnotation<OnTheMapPinView> {
+    func mapAnnotation(location: StudentInformation) -> MapAnnotation<OnTheMapPinView> {
         MapAnnotation(coordinate: location.coordinate) {
             OnTheMapPinView(action: {
                 sheetManager.showPartialSheet {
@@ -43,7 +43,7 @@ struct MapStudentLocationsView_Previews: PreviewProvider {
     static let sheetManager = PartialSheetManager()
 
     static var previews: some View {
-        MapStudentLocationsView(studentLocations: StudentLocation.sampleArray)
+        MapStudentLocationsView(studentLocations: StudentInformation.sampleArray)
             .environmentObject(sheetManager)
     }
 }

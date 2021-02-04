@@ -1,5 +1,5 @@
 //
-//  StudentLocation.swift
+//  StudentInformation.swift
 //  OnTheMap
 //
 //  Created by Ataias Pereira Reis on 29/01/21.
@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-struct StudentLocation: Codable, Identifiable {
+struct StudentInformation: Codable, Identifiable {
     let createdAt: Date
     let firstName: String
     let lastName: String
@@ -41,7 +41,7 @@ struct StudentLocation: Codable, Identifiable {
 }
 
 struct GetStudentLocationsResult: Codable {
-    let results: [StudentLocation]
+    let results: [StudentInformation]
 }
 
 struct PostStudentLocationResult: Codable {
@@ -49,19 +49,19 @@ struct PostStudentLocationResult: Codable {
     let createdAt: Date
 }
 
-extension StudentLocation {
-    static let sampleArray: [StudentLocation] = {
+extension StudentInformation {
+    static let sampleArray: [StudentInformation] = {
         let url = Bundle.main.url(forResource: "studentLocationsDummy", withExtension: ".json")!
         let studentLocationResult = try! FileManager.read(GetStudentLocationsResult.self, url)
         return studentLocationResult.results
     }()
 
-    static var sample: StudentLocation {
+    static var sample: StudentInformation {
         sampleArray[0]
     }
 }
 
-extension StudentLocation {
+extension StudentInformation {
     static var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium

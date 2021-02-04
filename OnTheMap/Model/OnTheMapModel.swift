@@ -11,7 +11,7 @@ import CoreLocation
 
 class OnTheMapModel: ObservableObject, ApiClient {
     @Published var sessionToken: UdacitySessionToken! = nil
-    @Published var studentLocations: [StudentLocation] = []
+    @Published var studentLocations: [StudentInformation] = []
     @Published var user: User! = nil
     var findLocationCache: [String: [CLPlacemark]] = [:]
 
@@ -127,7 +127,7 @@ class OnTheMapModel: ObservableObject, ApiClient {
             .store(in: &cancellables)
     }
 
-    func postStudentLocation(payload: OnTheMapApi.StudentLocationPayload, completion: @escaping () -> Void) {
+    func postStudentLocation(payload: OnTheMapApi.StudentLocationPayload, completion: @escaping (Result<(), Error>) -> Void) {
         OnTheMapApi.postStudentLocation(payload: payload)
             .receive(on: DispatchQueue.main)
             .retry(3)
@@ -135,13 +135,15 @@ class OnTheMapModel: ObservableObject, ApiClient {
                 receiveCompletion: { result in
                     switch result {
                     case .failure(let error):
+                        completion(Result.failure(error))
                         print("Error when running \(#function): \(error)")
                     case .finished:
+                        completion(Result.success(()))
                         print("Finished \(#function) successfully")
                     }
                 },
                 receiveValue: { _ in
-                    completion()
+
                 }
             )
             .store(in: &cancellables)

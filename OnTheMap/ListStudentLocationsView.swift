@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ListStudentLocationsView: View {
     // MARK: - Parameters
-    let studentLocations: [StudentLocation]
+    let studentLocations: [StudentInformation]
 
     // MARK: - State, Environment and computed properties
     @State private var isPresented = false
-    @State private var alertMessage = ""
+    @State private var alertInfo: AlertInfo!
     @Environment(\.openURL) var openURL
 
     // MARK: - body
@@ -39,7 +39,7 @@ struct ListStudentLocationsView: View {
 
             }
             .alert(isPresented: $isPresented, content: {
-                Alert(title: Text("Invalid URL"), message: Text(alertMessage), dismissButton: Alert.Button.default(Text("OK")))
+                Alert(title: Text(alertInfo.title), message: Text(alertInfo.message), dismissButton: Alert.Button.default(Text("OK")))
             })
         }
     }
@@ -54,13 +54,13 @@ struct ListStudentLocationsView: View {
     }
 
     func showAlertFor(badURL: String) {
-        alertMessage = "Sorry, can't open \"\(badURL)\" because that link is invalid"
+        alertInfo = AlertInfo(title: "Invalid URL", message: "Sorry, can't open \"\(badURL)\" because that link is invalid")
         isPresented = true
     }
 }
 
 struct ListStudentLocationsView_Previews: PreviewProvider {
     static var previews: some View {
-        ListStudentLocationsView(studentLocations: StudentLocation.sampleArray)
+        ListStudentLocationsView(studentLocations: StudentInformation.sampleArray)
     }
 }
