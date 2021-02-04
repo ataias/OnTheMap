@@ -132,7 +132,9 @@ struct AddLocationView<T: ApiClient>: View {
             DispatchQueue.main.async {
                 self.isFindingLocation = false
                 if let error = error {
-                    print(error.localizedDescription)
+                    alertMessage = "Geocoding the entered location \"\(locationGeocode)\" failed: \(error.localizedDescription)"
+                    isAlertPresented = true
+                    return
                 }
                 self.landmarks = result
                 if let landmark = self.landmarks {
