@@ -64,7 +64,7 @@ struct MapTabView<T: ApiClient>: View {
                 HStack {
                     Button(action: {
                         isReloading = true
-                        apiClient.getStudentLocations(limit: 100, skip: 0, orderBy: .ascending(.updatedAt)) {
+                        apiClient.getStudentLocations(limit: 100, skip: 0, orderBy: .descending(.updatedAt)) {
                             isReloading = false
                         }
                     }, label: {
