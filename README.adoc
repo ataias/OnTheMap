@@ -1,6 +1,10 @@
 = OnTheMap
 
-This is an app made as part of the iOS Developer course from Udacity. The summary is:
+OnTheMap is a SwiftUI application that allows one to log in using Udacity credentials, see posted locations on the map and list views, and post new locations for themselves. The app shows alerts in case things go wrong like a bad network connection.
+
+It leverages the Combine framework from Apple for the network requests and it is also inspired by the https://developer.apple.com/videos/play/wwdc2020/10149/[WWDC20-10149] video on Previewable Apps for its architecture, besides the https://github.com/ataias/Scrumdinger[Scrumdinger] demo app from Apple.
+
+This app was done as part of the iOS Developer course from Udacity. The summary from Udacity is:
 
 
 > The On The Map app allows users to share their location and a URL with their fellow students. To visualize this data, On The Map uses a map with pins for location and pin annotations for student names and URLs, allowing students to place themselves “on the map,” so to speak.
